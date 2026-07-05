@@ -1,7 +1,7 @@
 import css from './App.module.css';
 import { useState } from 'react';
 import { fetchNotes } from '../../services/noteService';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { useDebouncedCallback } from 'use-debounce';
 import SearchBox from '../SearchBox/SearchBox';
 import NoteList from '../NoteList/NoteList';
@@ -16,6 +16,7 @@ function App() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['notes', page, search],
     queryFn: () => fetchNotes({ page, search }),
+    placeholderData: keepPreviousData,
   });
   const handleSearch = useDebouncedCallback((value: string) => {
     setSearch(value);
